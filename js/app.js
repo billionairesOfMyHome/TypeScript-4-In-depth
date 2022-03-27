@@ -104,4 +104,34 @@ function CheckoutBooks(customer, ...booksIDs) {
 }
 let myBooks = CheckoutBooks('SEAN', 1, 3, 4);
 LogBookTitles(myBooks);
-// -------------------Rest parameters end-------------------
+//函数实现
+function A(param) {
+    if (typeof param === 'number') {
+        // 函数实现
+    }
+    else if (typeof param === 'string') {
+        // 函数实现
+    }
+}
+function GetTitles(author, available) {
+    const allBooks = GetAllBooks();
+    const searchResults = [];
+    if (available) {
+        for (let book of allBooks) {
+            if (book.author === author && book.available === available) {
+                searchResults.push(book.title);
+            }
+        }
+    }
+    else {
+        for (let book of allBooks) {
+            if (book.author === author) {
+                searchResults.push(book.title);
+            }
+        }
+    }
+    return searchResults;
+}
+LogBookTitles(GetTitles('Ernest Hemingway'));
+LogBookTitles(GetTitles('Ernest Hemingway', false));
+// -------------------Function overload end-------------------
