@@ -1,11 +1,30 @@
 function GetAllBooks() {
     let books = [
-        { title: 'Ulysses', author: 'James Joyce', available: true, category: Category.Fiction },
-        { title: 'A Farewell to Arms', author: 'Ernest Hemingway', available: false, category: Category.Fiction },
-        { title: 'I Know Why the Caged Bird Sings', author: 'Maya Angelou', available: true, category: Category.Poetry },
-        { title: 'Moby Dick', author: 'Herman Melville', available: true, category: Category.Fiction }
-    ];
+        { id: 1, title: 'Ulysses', author: 'James Joyce', available: true, category: Category.Fiction },
+        { id: 2, title: 'A Farewell to Arms', author: 'Ernest Hemingway', available: false, category: Category.Fiction },
+        { id: 3, title: 'I Know Why the Caged Bird Sings', author: 'Maya Angelou', available: true, category: Category.Poetry },
+        { id: 4, title: 'Moby Dick', author: 'Herman Melville', available: true, category: Category.Fiction }];
     return books;
+}
+
+function LogFirstAvailable(books = GetAllBooks()): void {
+    let numberOfBooks: number = books.length;
+    let firstAvailable: string = '';
+
+    for (let currentBook of books) {
+
+        if (currentBook.available) {
+            firstAvailable = currentBook.title;
+            break;
+        }
+    }
+    console.log('Total Books: ' + numberOfBooks);
+    console.log('First Available: ' + firstAvailable);
+}
+
+function GetBookByID(id: number) {
+    const allBooks = GetAllBooks();
+    return allBooks.filter(book => book.id === id)[0];
 }
 
 // -------------------Enum-------------------
@@ -21,7 +40,7 @@ enum Category {
 console.log(Category.Biography === 2);      // true
 console.log(Category[2] === 'Biography'); // true
 
-function GetBookTitlesByCategory(categoryFilter: Category): Array<string> {
+function GetBookTitlesByCategory(categoryFilter: Category = Category.Fiction): Array<string> {
 
     console.log('Getting books in category: ' + Category[categoryFilter]);
 
@@ -71,3 +90,53 @@ function reset(...args: [number, string, boolean]): void {
 reset(1, 'sean', true)
 
 // -------------------Tuple end-------------------
+
+// -------------------Optional parameters-------------------
+
+function CreateCustomer(name: string, age?: number, city?: string): void {
+    console.log('Creating customer: ', name);
+
+    if (age) {
+        console.log('Age: ', age);
+    }
+    if (city) {
+        console.log('City: ', city);
+    }
+}
+
+CreateCustomer('Sean', 18, 'shanghai');
+CreateCustomer('Sean', 18);
+CreateCustomer('Sean');
+
+// -------------------Optional parameters end-------------------
+
+// -------------------Default parameters-------------------
+
+let fictionBooks = GetBookTitlesByCategory();
+LogBookTitles(fictionBooks);
+
+LogFirstAvailable();
+
+// -------------------Default parameters end-------------------
+
+// -------------------Rest parameters-------------------
+
+function CheckoutBooks(customer: string, ...booksIDs: number[]): string[] {
+    console.log('Checking out books for ', customer);
+
+    let booksCheckedOut: string[] = [];
+
+    for (let id of booksIDs) {
+        let book = GetBookByID(id);
+        if (book.available) {
+            booksCheckedOut.push(book.title);
+        }
+    }
+
+    return booksCheckedOut;
+}
+
+let myBooks: string[] = CheckoutBooks('SEAN', 1, 3, 4);
+LogBookTitles(myBooks);
+
+// -------------------Rest parameters end-------------------
